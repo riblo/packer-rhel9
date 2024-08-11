@@ -1,0 +1,53 @@
+{
+  "builders": [
+      {
+      "type": "vmware-iso",
+      "version": "19",
+      "guest_os_type": "rhel9-64",
+      "vm_name": "esx19-rhel-9_4",
+      "headless": false,
+  
+      "remote_type": "esx5",
+      "remote_username": "root",
+      "remote_password": "ewq1234!",
+      "remote_host": "192.168.233.40",
+      "remote_datastore": "datastore1",
+      "keep_registered": true,
+      "vnc_disable_password": true,
+      "vnc_over_websocket": true,
+      "insecure_connection": true,
+      "output_directory": "../esx19-rhel-9_4",
+  
+      "iso_url": "iso/rhel/rhel-9.4-x86_64-dvd.iso",
+      "iso_checksum": "7447c6e6be379ca69237d8d610778f49",
+      
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_password": "Ch4ng3M3!",
+      "ssh_timeout": "15m",
+      "shutdown_command": "shutdown -h now",
+  
+      "http_directory": "./configs", 
+  
+      "boot_wait": "5s",
+      "boot_command": [ 
+        "c setparams 'kickstart' <enter> linuxefi /images/pxeboot/vmlinuz ip=192.168.233.100::192.168.233.254:255.255.255.0:localhost:ens192:none nameserver=192.168.233.254 inst.stage2=hd:LABEL=RHEL-9-4-0-BaseOS-x86_64 inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart-rhel-9_4.cfg<enter> initrdefi /images/pxeboot/initrd.img<enter> boot<enter>"
+        ],
+  
+      "cpus": "2",
+      "memory": "2048",
+  
+      "disk_size": "20480",
+      "disk_type_id": "thin",
+      "disk_adapter_type": "pvscsi",
+  
+      "network_name": "VM Network",
+      "network_adapter_type": "vmxnet3",
+  
+      "vmx_data": {
+        "firmware":"efi",
+        "tools.syncTime": "FALSE"
+      }
+    }
+  ]
+  }
